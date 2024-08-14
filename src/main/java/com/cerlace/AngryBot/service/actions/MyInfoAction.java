@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.time.format.DateTimeFormatter;
+
 @RequiredArgsConstructor
 @Component
 public class MyInfoAction implements Action {
@@ -15,8 +16,8 @@ public class MyInfoAction implements Action {
     private final UserRepository userRepository;
 
     @Override
-    public SendMessage handle(Message message) {
-        User user = userRepository.findById(message.getChatId()).get();
+    public SendMessage handle(SendMessage response, Message request) {
+        User user = userRepository.findById(request.getChatId()).get();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String textBlock = """
                 Вот твои данные:
@@ -24,11 +25,11 @@ public class MyInfoAction implements Action {
                 Погоняло: %s
                 Зарегался %s
                 За это время я тебе нагрубил %d раз!""";
-        return new SendMessage(message.getChatId().toString(),
-                textBlock.formatted(
-                        user.getChatId(),
-                        user.getUserName(),
-                        user.getRegisteredAt().toLocalDateTime().format(dtf),
-                        user.getReplyCount()));
+        response.setText(textBlock.formatted(
+                user.getChatId(),
+                user.getUserName(),
+                user.getRegisteredAt().toLocalDateTime().format(dtf),
+                user.getReplyCount()));
+        return response;
     }
 }

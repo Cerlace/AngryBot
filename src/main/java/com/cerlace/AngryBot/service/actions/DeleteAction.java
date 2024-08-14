@@ -17,27 +17,26 @@ public class DeleteAction implements ActionWithCallback {
     private final UserRepository userRepository;
 
     @Override
-    public SendMessage handle(Message message) {
-        SendMessage reply = new SendMessage(message.getChatId().toString(),
-                "Точно хочешь удалиться?");
+    public SendMessage handle(SendMessage response, Message request) {
+        response.setText("Точно хочешь удалиться?");
         KeyboardRow buttons = new KeyboardRow();
         buttons.add("Да, пошло оно лесом!");
         buttons.add("Не, ну его.");
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(List.of(buttons));
         keyboardMarkup.setResizeKeyboard(true);
         keyboardMarkup.setOneTimeKeyboard(true);
-        reply.setReplyMarkup(keyboardMarkup);
-        return reply;
+        response.setReplyMarkup(keyboardMarkup);
+        return response;
     }
 
     @Override
-    public SendMessage callback(Message message) {
-        if (message.getText().equals("Да, пошло оно лесом!")) {
-            userRepository.deleteById(message.getChatId());
-            return new SendMessage(message.getChatId().toString(),
-                    "Ну и пошел ты, щегол! Удалил тебя из списка.");
+    public SendMessage callback(SendMessage response, Message request) {
+        if (request.getText().equals("Да, пошло оно лесом!")) {
+            userRepository.deleteById(request.getChatId());
+            response.setText("Ну и пошел ты, щегол! Удалил тебя из списка.");
+        } else {
+            response.setText("Вот и не придуривайся!");
         }
-        return new SendMessage(message.getChatId().toString(),
-                "Вот и не придуривайся!");
+        return response;
     }
 }

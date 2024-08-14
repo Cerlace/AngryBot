@@ -15,13 +15,18 @@ import java.util.List;
 public class JokeAction implements Action {
 
     private final JokeRepository jokeRepository;
+
     @Override
-    public SendMessage handle(Message message) {
+    public SendMessage handle(SendMessage response, Message request) {
         List<Joke> jokeList = jokeRepository.findAll();
         int randIndex = (int) (Math.random() * jokeList.size());
-        SendMessage reply = new SendMessage(message.getChatId().toString(),
-                jokeList.get(randIndex).getJokeText());
-        reply.setParseMode(ParseMode.HTML);
-        return reply;
+
+        if (jokeList.isEmpty()) {
+            response.setText("Не знаю я анекдотов!");
+        } else {
+            response.setText(jokeList.get(randIndex).getJokeText());
+            response.setParseMode(ParseMode.HTML);
+        }
+        return response;
     }
 }

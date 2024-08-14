@@ -11,16 +11,17 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 public class AddReplyAction implements ActionWithCallback {
 
     private final ReplyRepository replyRepository;
+
     @Override
-    public SendMessage handle(Message message) {
-        return new SendMessage(message.getChatId().toString(),
-                "Хочешь добавить новую фразу для ответа значит? Ну вводи давай.");
+    public SendMessage handle(SendMessage response, Message request) {
+        response.setText("Хочешь добавить новую фразу для ответа значит? Ну вводи давай.");
+        return response;
     }
 
     @Override
-    public SendMessage callback(Message message) {
-        replyRepository.saveNewReply(message.getText());
-        return new SendMessage(message.getChatId().toString(),
-                "Неплохо, а ты остроумный шкет! Запишу себе, пожалуй.");
+    public SendMessage callback(SendMessage response, Message request) {
+        replyRepository.saveNewReply(request.getText());
+        response.setText("Неплохо, а ты остроумный шкет! Запишу себе, пожалуй.");
+        return response;
     }
 }

@@ -11,16 +11,17 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 public class AddJokeAction implements ActionWithCallback {
 
     private final JokeRepository jokeRepository;
+
     @Override
-    public SendMessage handle(Message message) {
-        return new SendMessage(message.getChatId().toString(),
-                "Пошутить вздумал? Ну рассказывай, посмотрим что ты там придумал.");
+    public SendMessage handle(SendMessage response, Message request) {
+        response.setText("Пошутить вздумал? Ну рассказывай, посмотрим что ты там придумал.");
+        return response;
     }
 
     @Override
-    public SendMessage callback(Message message) {
-        jokeRepository.saveNewJoke(message.getText());
-        return new SendMessage(message.getChatId().toString(),
-                "Хехе, смешно однако. Запишу в список анекдотов.");
+    public SendMessage callback(SendMessage response, Message request) {
+        jokeRepository.saveNewJoke(request.getText());
+        response.setText("Хехе, смешно однако. Запишу в список анекдотов.");
+        return response;
     }
 }
