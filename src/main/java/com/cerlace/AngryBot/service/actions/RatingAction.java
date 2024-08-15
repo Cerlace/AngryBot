@@ -16,13 +16,12 @@ public class RatingAction implements Action {
     private final UserRepository userRepository;
 
     @Override
-    public SendMessage handle(SendMessage response, Message request) {
+    public void handle(SendMessage response, Message request) {
         List<User> userList = userRepository.findTop10ByOrderByReplyCountDesc();
         StringBuilder sb = new StringBuilder("Ну че, вот список самых упорных терпил:\n");
         for (User user : userList) {
             sb.append(String.format("\n %s, получил уже %d грубых ответов", user.getUserName(), user.getReplyCount()));
         }
         response.setText(sb.toString());
-        return response;
     }
 }

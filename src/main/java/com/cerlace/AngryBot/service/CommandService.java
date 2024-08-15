@@ -32,7 +32,7 @@ public class CommandService {
         this.commandActionMap = commandActionMap;
     }
 
-    public SendMessage processMessage(SendMessage response, Message request) {
+    public void processMessage(SendMessage response, Message request) {
 
         String messageText = request.getText();
         long chatId = request.getChatId();
@@ -49,30 +49,28 @@ public class CommandService {
                     callbackMap.remove(chatId);
                 }
 
-                return action.handle(response, request);
+                action.handle(response, request);
             } else if (callbackMap.containsKey(chatId)) {
 
-                response = callbackMap.get(chatId).callback(response, request);
+                callbackMap.get(chatId).callback(response, request);
                 callbackMap.remove(chatId);
-                return response;
 
             } else {
-                return setRandomReply(response, request);
+                setRandomReply(response, request);
             }
         } else {
             if (messageText.equals("/start")) {
-                return registerUser(response, request);
+                registerUser(response, request);
             } else {
                 response.setText("""
                         Ты че попутал, кто ты вообще такой?
 
                         Зайди нормально через /start""");
-                return response;
             }
         }
     }
 
-    private SendMessage setRandomReply(SendMessage response, Message request) {
+    private void setRandomReply(SendMessage response, Message request) {
         List<Reply> replyList = replyRepository.findAll();
         int randIndex = (int) (Math.random() * replyList.size());
 
@@ -85,10 +83,9 @@ public class CommandService {
         } else {
             response.setText(replyList.get(randIndex).getReplyText());
         }
-        return response;
     }
 
-    private SendMessage registerUser(SendMessage response, Message request) {
+    private void registerUser(SendMessage response, Message request) {
         User user = new User();
         user.setChatId(request.getChatId());
         user.setUserName(request.getChat().getFirstName());
@@ -97,7 +94,5 @@ public class CommandService {
         userRepository.save(user);
         response.setText("Ну здарова, " + request.getChat().getFirstName() + "!\n\n" +
                 "Я тебя запомнил, щенок. Теперь напиши мне что-нибудь, а я поставлю тебя на место!");
-
-        return response;
     }
 }

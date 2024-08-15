@@ -13,15 +13,13 @@ public class AddJokeAction implements ActionWithCallback {
     private final JokeRepository jokeRepository;
 
     @Override
-    public SendMessage handle(SendMessage response, Message request) {
+    public void handle(SendMessage response, Message request) {
         response.setText("Пошутить вздумал? Ну рассказывай, посмотрим что ты там придумал.");
-        return response;
     }
 
     @Override
-    public SendMessage callback(SendMessage response, Message request) {
+    public void callback(SendMessage response, Message request) {
         jokeRepository.saveNewJoke(request.getText());
         response.setText("Хехе, смешно однако. Запишу в список анекдотов.");
-        return response;
     }
 }

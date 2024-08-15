@@ -17,7 +17,7 @@ public class DeleteAction implements ActionWithCallback {
     private final UserRepository userRepository;
 
     @Override
-    public SendMessage handle(SendMessage response, Message request) {
+    public void handle(SendMessage response, Message request) {
         response.setText("Точно хочешь удалиться?");
         KeyboardRow buttons = new KeyboardRow();
         buttons.add("Да, пошло оно лесом!");
@@ -26,17 +26,15 @@ public class DeleteAction implements ActionWithCallback {
         keyboardMarkup.setResizeKeyboard(true);
         keyboardMarkup.setOneTimeKeyboard(true);
         response.setReplyMarkup(keyboardMarkup);
-        return response;
     }
 
     @Override
-    public SendMessage callback(SendMessage response, Message request) {
+    public void callback(SendMessage response, Message request) {
         if (request.getText().equals("Да, пошло оно лесом!")) {
             userRepository.deleteById(request.getChatId());
             response.setText("Ну и пошел ты, щегол! Удалил тебя из списка.");
         } else {
             response.setText("Вот и не придуривайся!");
         }
-        return response;
     }
 }

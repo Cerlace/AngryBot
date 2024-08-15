@@ -14,9 +14,8 @@ public class StartAction implements Action {
     private final UserRepository userRepository;
 
     @Override
-    public SendMessage handle(SendMessage response, Message request) {
+    public void handle(SendMessage response, Message request) {
         User user = userRepository.findById(request.getChatId()).get();
         response.setText("Я уже знаю тебя. " + user.getUserName() + ", че тебе надо?");
-        return response;
     }
 }

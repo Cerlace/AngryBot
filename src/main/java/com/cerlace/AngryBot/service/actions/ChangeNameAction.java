@@ -13,15 +13,13 @@ public class ChangeNameAction implements ActionWithCallback {
     private final UserRepository userRepository;
 
     @Override
-    public SendMessage handle(SendMessage response, Message request) {
+    public void handle(SendMessage response, Message request) {
         response.setText("Хочешь новое погоняло значит? Ну говори давай, как тебя звать теперь.");
-        return response;
     }
 
     @Override
-    public SendMessage callback(SendMessage response, Message request) {
+    public void callback(SendMessage response, Message request) {
         userRepository.setUserNameByChatId(request.getText(), request.getChatId());
         response.setText("Я запомнил, теперь буду звать тебя " + request.getText());
-        return response;
     }
 }

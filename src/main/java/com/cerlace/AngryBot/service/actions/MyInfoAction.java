@@ -16,7 +16,7 @@ public class MyInfoAction implements Action {
     private final UserRepository userRepository;
 
     @Override
-    public SendMessage handle(SendMessage response, Message request) {
+    public void handle(SendMessage response, Message request) {
         User user = userRepository.findById(request.getChatId()).get();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String textBlock = """
@@ -30,6 +30,5 @@ public class MyInfoAction implements Action {
                 user.getUserName(),
                 user.getRegisteredAt().toLocalDateTime().format(dtf),
                 user.getReplyCount()));
-        return response;
     }
 }

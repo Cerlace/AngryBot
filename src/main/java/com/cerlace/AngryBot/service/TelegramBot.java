@@ -38,7 +38,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             SendMessage response = new SendMessage();
             response.setChatId(request.getChatId());
 
-            response = commandService.processMessage(response, update.getMessage());
+            commandService.processMessage(response, request);
 
             try {
                 execute(response);

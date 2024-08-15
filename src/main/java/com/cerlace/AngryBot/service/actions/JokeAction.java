@@ -17,7 +17,7 @@ public class JokeAction implements Action {
     private final JokeRepository jokeRepository;
 
     @Override
-    public SendMessage handle(SendMessage response, Message request) {
+    public void handle(SendMessage response, Message request) {
         List<Joke> jokeList = jokeRepository.findAll();
         int randIndex = (int) (Math.random() * jokeList.size());
 
@@ -27,6 +27,5 @@ public class JokeAction implements Action {
             response.setText(jokeList.get(randIndex).getJokeText());
             response.setParseMode(ParseMode.HTML);
         }
-        return response;
     }
 }

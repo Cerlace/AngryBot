@@ -13,15 +13,13 @@ public class AddReplyAction implements ActionWithCallback {
     private final ReplyRepository replyRepository;
 
     @Override
-    public SendMessage handle(SendMessage response, Message request) {
+    public void handle(SendMessage response, Message request) {
         response.setText("Хочешь добавить новую фразу для ответа значит? Ну вводи давай.");
-        return response;
     }
 
     @Override
-    public SendMessage callback(SendMessage response, Message request) {
+    public void callback(SendMessage response, Message request) {
         replyRepository.saveNewReply(request.getText());
         response.setText("Неплохо, а ты остроумный шкет! Запишу себе, пожалуй.");
-        return response;
     }
 }
