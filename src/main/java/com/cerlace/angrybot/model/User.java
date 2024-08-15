@@ -1,4 +1,4 @@
-package com.cerlace.AngryBot.model;
+package com.cerlace.angrybot.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

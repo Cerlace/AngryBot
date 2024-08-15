@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cerlace</groupId>
-	<artifactId>AngryBot</artifactId>
+	<artifactId>angrybot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>AngryBot</name>
 	<description>Angry telegram bot made with Spring Boot</description>

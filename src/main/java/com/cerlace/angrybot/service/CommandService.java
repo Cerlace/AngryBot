@@ -1,11 +1,11 @@
-package com.cerlace.AngryBot.service;
+package com.cerlace.angrybot.service;
 
-import com.cerlace.AngryBot.model.Reply;
-import com.cerlace.AngryBot.model.User;
-import com.cerlace.AngryBot.repository.ReplyRepository;
-import com.cerlace.AngryBot.repository.UserRepository;
-import com.cerlace.AngryBot.service.actions.Action;
-import com.cerlace.AngryBot.service.actions.ActionWithCallback;
+import com.cerlace.angrybot.model.Reply;
+import com.cerlace.angrybot.model.User;
+import com.cerlace.angrybot.repository.ReplyRepository;
+import com.cerlace.angrybot.repository.UserRepository;
+import com.cerlace.angrybot.service.actions.Action;
+import com.cerlace.angrybot.service.actions.ActionWithCallback;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -71,17 +71,14 @@ public class CommandService {
     }
 
     private void setRandomReply(SendMessage response, Message request) {
-        List<Reply> replyList = replyRepository.findAll();
-        int randIndex = (int) (Math.random() * replyList.size());
+        Reply reply = replyRepository.getRandomReply();
 
-        User currentUser = userRepository.findById(request.getChatId()).get();
-        currentUser.setReplyCount(currentUser.getReplyCount() + 1);
-        userRepository.save(currentUser);
-
-        if (replyList.isEmpty()) {
+        if (reply == null) {
             response.setText("Не знаю что ответить даже...");
         } else {
-            response.setText(replyList.get(randIndex).getReplyText());
+            response.setText(reply.getReplyText());
+
+            userRepository.incrementReplyCount(request.getChatId());
         }
     }
 

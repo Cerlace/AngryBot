@@ -1,6 +1,6 @@
-package com.cerlace.AngryBot.service.actions;
+package com.cerlace.angrybot.service.actions;
 
-import com.cerlace.AngryBot.repository.JokeRepository;
+import com.cerlace.angrybot.repository.JokeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

@@ -1,6 +1,7 @@
-package com.cerlace.AngryBot.repository;
+package com.cerlace.angrybot.repository;
 
-import com.cerlace.AngryBot.model.Joke;
+import com.cerlace.angrybot.model.Joke;
+import com.cerlace.angrybot.model.Reply;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +14,7 @@ public interface JokeRepository extends JpaRepository<Joke, Long> {
     @Modifying
     @Query("insert into Joke(jokeText) values (:jokeText)")
     void saveNewJoke(@Param(value = "jokeText") String jokeText);
+
+    @Query(nativeQuery = true, value = "SELECT *  FROM joke_table ORDER BY random() LIMIT 1")
+    Joke getRandomJoke();
 }

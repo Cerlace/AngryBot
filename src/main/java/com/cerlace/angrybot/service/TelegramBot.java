@@ -1,4 +1,4 @@
-package com.cerlace.AngryBot.service;
+package com.cerlace.angrybot.service;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,7 +43,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             try {
                 execute(response);
             } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
     }

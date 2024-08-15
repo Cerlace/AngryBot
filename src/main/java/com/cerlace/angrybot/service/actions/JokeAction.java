@@ -1,7 +1,7 @@
-package com.cerlace.AngryBot.service.actions;
+package com.cerlace.angrybot.service.actions;
 
-import com.cerlace.AngryBot.model.Joke;
-import com.cerlace.AngryBot.repository.JokeRepository;
+import com.cerlace.angrybot.model.Joke;
+import com.cerlace.angrybot.repository.JokeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
@@ -18,13 +18,12 @@ public class JokeAction implements Action {
 
     @Override
     public void handle(SendMessage response, Message request) {
-        List<Joke> jokeList = jokeRepository.findAll();
-        int randIndex = (int) (Math.random() * jokeList.size());
+        Joke joke = jokeRepository.getRandomJoke();
 
-        if (jokeList.isEmpty()) {
+        if (joke == null) {
             response.setText("Не знаю я анекдотов!");
         } else {
-            response.setText(jokeList.get(randIndex).getJokeText());
+            response.setText(joke.getJokeText());
             response.setParseMode(ParseMode.HTML);
         }
     }

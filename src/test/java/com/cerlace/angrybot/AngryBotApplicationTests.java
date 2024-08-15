@@ -1,4 +1,4 @@
-package com.cerlace.AngryBot;
+package com.cerlace.angrybot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

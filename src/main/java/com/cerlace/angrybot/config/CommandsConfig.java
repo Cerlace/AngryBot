@@ -1,6 +1,6 @@
-package com.cerlace.AngryBot.config;
+package com.cerlace.angrybot.config;
 
-import com.cerlace.AngryBot.service.actions.*;
+import com.cerlace.angrybot.service.actions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
